@@ -40,6 +40,7 @@ class Solver:
     def solveProblem(self,p):
         self.recurse(str(p.numbers[0]),p.numbers, p.target)
   
+    # still has a bug that the first letter on the board is the first letter in solution
     def recurse(self,stringsofar,numberslist,target):
         for i in range(1,len(numberslist)):
             #Add with previous result
