@@ -42,7 +42,7 @@ class Solver:
     def solveProblem(self,p):
         self.recurse("",0,p.numbers, p.target,p.winners,False)
         print "And the "+str(len(p.winners)) +" winners are..."
-        #sort by number of numbers and then the length of overall string
+        #sort by number(amount/size) of numbers and then the length of overall string
         p.winners=sorted(p.winners,key=lambda winner: (len(re.split("[\(\)\\+\-/]+",winner)),len(winner)))
         for winner in p.winners:
             print winner + (" = "+str(p.target)) if(eval(winner) ==p.target) else ""
