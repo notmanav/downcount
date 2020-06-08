@@ -22,7 +22,7 @@ class Problem:
         for i in range(6):
             val=random.randint(1,10)
             if(i<howmanybig):
-                val=self.bigpool.pop()
+                val=self.bigpool.pop(random.randint(0,len(self.bigpool)-1))
             self.numbers.append(val)
         
         self.target=random.randint(100,999)
@@ -30,8 +30,9 @@ class Problem:
     
     
     def printproblem(self):
-        sys.stdout.write("\r %s \x1b[K" % (self.getproblemstr()))
-        sys.stdout.flush()
+        #sys.stdout.write("\r %s \x1b[K" % (self.getproblemstr()))
+        #sys.stdout.flush()
+        print(f"{self.getproblemstr()} = {self.target}")
     
     def getproblemstr(self):
         return " | ".join(str(x) for x in self.numbers)
@@ -41,11 +42,12 @@ class Solver:
     
     def solveProblem(self,p):
         self.recurse("",0,p.numbers, p.target,p.winners,False)
-        print "And the "+str(len(p.winners)) +" winners are..."
+        print(f"And the {str(len(p.winners))} winners are...")
         #sort by number(amount/size) of numbers and then the length of overall string
         p.winners=sorted(p.winners,key=lambda winner: (len(re.split("[\(\)\\+\-/]+",winner)),len(winner)))
         for winner in p.winners:
-            print winner + (" = "+str(p.target)) if(eval(winner) ==p.target) else ""
+            temp=(" = "+str(p.target)) if(eval(winner) ==p.target) else ""
+            print(f"{winner}{temp}")
   
     # still has a bug that the first letter on the board is the first letter in solution. maybe adding a no-op value(0/1) as the first item in the list will fix it
     def recurse(self,stringsofar,ressofar,numberslist,target,winners,verbose):
@@ -80,18 +82,17 @@ class Solver:
             self.recurse(stringnow,resnow,newlist,target,winners,verbose)
         else:
             if(verbose):
-                print stringnow +" || Test Result "+ str(eval(stringnow) ==target)
+                print(f"{stringnow} || Test Result {str(eval(stringnow) ==target)}")
             winners.add(stringnow)
             
 
 
-for i in range(1):          
+for i in range(2):          
     p=Problem()
     p.generateProblem()
     #p.numbers=[50,75,100,25,3,3]
     #p.target=996
-    print p.getproblemstr()
-    #print p.target
+    p.printproblem()
     Solver().solveProblem(p)
     #p.printproblem()
     #sleep(0.5)
